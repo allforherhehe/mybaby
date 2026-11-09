@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>For My Love — fallingforyou</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Playfair+Display:wght@500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #3b0713;
+    color: #3b0713;
+    font-family: "Cormorant Garamond", serif;
+    overflow-x: hidden;
+}
+
+/* =========================
+   FRONT / ENVELOPE
+========================= */
+
+#front {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:
+        radial-gradient(circle at center, #64152a 0%, #3b0713 55%, #21040b 100%);
+    position: relative;
+    overflow: hidden;
+    transition:
+        opacity 1.8s ease,
+        transform 1.8s ease;
+}
+
+#front.hide {
+    opacity: 0;
+    transform: scale(1.04);
+    pointer-events: none;
+}
+
+/* floating hearts */
+
+.heart {
+    position: fixed;
+    bottom: -30px;
+    font-size: 20px;
+    color: #f5c8cf;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: floatHeart 7s linear forwards;
+    z-index: 5;
+}
+
+@keyframes floatHeart {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(-110vh) rotate(25deg);
+        opacity: 0;
+    }
+}
+
+/* envelope */
+
+.envelope-wrapper {
+    width: min(360px, 85vw);
+    position: relative;
+    cursor: pointer;
+}
+
+.envelope {
+    width: 100%;
+    aspect-ratio: 1.45;
+    position: relative;
+    background: #e8d0b4;
+    border-radius: 5px;
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.35);
+
+    animation: envelopeMove 3.8s ease-in-out infinite;
+}
+
+@keyframes envelopeMove {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        box-shadow:
+            0 20px 50px rgba(0,0,0,0.35);
+    }
+
+    25% {
+        transform: translateY(-7px) rotate(-0.7deg) scale(1.008);
+        box-shadow:
+            0 25px 54px rgba(0,0,0,0.38);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(0.7deg) scale(1.012);
+        box-shadow:
+            0 27px 56px rgba(0,0,0,0.40);
+    }
+
+    75% {
+        transform: translateY(-5px) rotate(-0.4deg) scale(1.005);
+        box-shadow:
+            0 23px 52px rgba(0,0,0,0.37);
+    }
+}
+
+/* minimal shine */
+
+.envelope::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 55%;
+    height: 100%;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.12),
+            transparent
+        );
+    transform: skewX(-18deg);
+    animation: envelopeShine 6s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 5;
+}
+
+@keyframes envelopeShine {
+    0%, 65% {
+        left: -120%;
+    }
+
+    85%, 100% {
+        left: 130%;
+    }
+}
+
+/* bottom folds */
+
+.envelope::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #d8b99a;
+    clip-path: polygon(
+        0 0,
+        50% 55%,
+        100% 0,
+        100% 100%,
+        0 100%
+    );
+    z-index: 2;
+}
+
+/* flap */
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 62%;
+    background: #f0d9bd;
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        50% 100%
+    );
+    transform-origin: top;
+    transition:
+        transform 1.8s cubic-bezier(.65,0,.35,1);
+    z-index: 4;
+}
+
+.envelope.open .flap {
+    transform: rotateX(180deg);
+}
+
+/* seal */
+
+.seal {
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #76152c;
+    color: #f9e9dc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    box-shadow:
+        0 6px 15px rgba(0,0,0,0.25);
+    z-index: 6;
+    transition: opacity 0.8s ease;
+}
+
+.envelope.open .seal {
+    opacity: 0;
+}
+
+/* front text */
+
+.front-title {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: -105px;
+    color: #f8e8db;
+    font-family: "Great Vibes", cursive;
+    font-size: 34px;
+}
+
+.front-subtitle {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: -85px;
+    color: #eacbd0;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+}
+
+/* =========================
+   LETTER AREA
+========================= */
+
+#letterPages {
+    display: none;
+    min-height: 100vh;
+    padding: 35px 16px 45px;
+    background:
+        radial-gradient(
+            circle at top,
+            #fdf5ec 0%,
+            #f6e8d9 55%,
+            #edd8c5 100%
+        );
+}
+
+#letterPages.show {
+    display: block;
+}
+
+/* pages */
+
+.letter-page {
+    display: none;
+    max-width: 720px;
+    margin: 0 auto;
+    min-height: calc(100vh - 80px);
+    padding: 42px 25px 75px;
+    background: rgba(255,250,244,0.96);
+    border-radius: 4px;
+    box-shadow:
+        0 12px 35px rgba(70,24,25,0.12);
+    position: relative;
+    opacity: 0;
+}
+
+.letter-page.active {
+    display: block;
+    animation: pageEnter 1.8s ease forwards;
+}
+
+.letter-page.leaving {
+    display: block;
+    animation: pageLeave 1.3s ease forwards;
+}
+
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform:
+            translateY(25px)
+            scale(0.985);
+        filter: blur(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes pageLeave {
+    from {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+        filter: blur(0);
+    }
+
+    to {
+        opacity: 0;
+        transform:
+            translateY(-18px)
+            scale(0.99);
+        filter: blur(3px);
+    }
+}
+
+/* letter heading */
+
+.letter-title {
+    text-align: center;
+    font-family: "Great Vibes", cursive;
+    font-size: 48px;
+    font-weight: 400;
+    color: #68152b;
+    margin: 0 0 8px;
+}
+
+.date {
+    text-align: center;
+    color: #9a5964;
+    font-size: 15px;
+    margin-bottom: 38px;
+    letter-spacing: 1px;
+}
+
+/* paragraphs */
+
+.letter-content {
+    font-size: 18px;
+    line-height: 1.85;
+    color: #47242a;
+}
+
+.letter-content p {
+    margin: 0 0 25px;
+}
+
+.letter-content .short-lines {
+    text-align: center;
+    margin: 30px 0;
+    line-height: 2;
+}
+
+/* page 2 */
+
+.middle-page {
+    display: none !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: calc(100vh - 80px);
+}
+
+.middle-page.active {
+    display: flex !important;
+}
+
+.middle-text {
+    font-family: "Great Vibes", cursive;
+    font-size: 46px;
+    color: #68152b;
+    margin: 0 0 55px;
+}
+
+/* page 3 */
+
+.answer-page {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,250,245,0.98),
+            rgba(249,232,220,0.98)
+        );
+}
+
+.answer-page .letter-content {
+    text-align: left;
+}
+
+.answer-love {
+    text-align: center;
+    margin-top: 42px;
+    padding-top: 20px;
+}
+
+.answer-love p {
+    margin-bottom: 14px;
+}
+
+.answer-final {
+    margin-top: 35px !important;
+    font-family: "Playfair Display", serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #68152b;
+    text-align: center;
+    letter-spacing: 0.4px;
+}
+
+/* signature */
+
+.signature {
+    text-align: right;
+    font-family: "Playfair Display", serif;
+    font-size: 23px;
+    font-style: italic;
+    color: #68152b;
+    margin-top: 50px;
+    padding-right: 2px;
+}
+
+/* buttons */
+
+.continue-area {
+    position: absolute;
+    bottom: 22px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.continue-btn {
+    border: none;
+    background: transparent;
+    color: #8b4655;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 15px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    padding: 8px 15px;
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+.continue-btn:hover {
+    opacity: 0.65;
+    transform: translateY(-2px);
+}
+
+/* =========================
+   POLAROID PHOTO STRIP
+========================= */
+
+.photo-strip {
+    margin-top: 32px;
+    padding-top: 8px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+
+    gap: 14px;
+}
+
+.polaroid {
+    width: 105px;
+    padding: 6px 6px 18px;
+
+    background: #fffdf9;
+
+    box-shadow:
+        0 5px 14px rgba(70,24,25,0.16);
+
+    transform: rotate(-2deg);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.polaroid:nth-child(2) {
+    transform: rotate(2deg);
+}
+
+.polaroid:nth-child(3) {
+    transform: rotate(-1deg);
+}
+
+.polaroid:nth-child(4) {
+    transform: rotate(2deg);
+}
+
+.polaroid:nth-child(5) {
+    transform: rotate(-2deg);
+}
+
+.polaroid:hover {
+    transform: translateY(-4px) rotate(0deg);
+    box-shadow:
+        0 9px 20px rgba(70,24,25,0.20);
+}
+
+.polaroid img {
+    display: block;
+
+    width: 100%;
+    height: 105px;
+
+    object-fit: cover;
+
+    border-radius: 1px;
+}
+
+@media (max-width: 600px) {
+
+    .photo-strip {
+        margin-top: 28px;
+        gap: 10px;
+        padding: 0 4px;
+    }
+
+    .polaroid {
+        width: 88px;
+        padding: 5px 5px 14px;
+    }
+
+    .polaroid img {
+        height: 88px;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    #letterPages {
+        padding: 20px 10px 30px;
+    }
+
+    .letter-page {
+        padding:
+            32px 21px 70px;
+        min-height:
+            calc(100vh - 50px);
+    }
+
+    .letter-title {
+        font-size: 42px;
+    }
+
+    .date {
+        margin-bottom: 30px;
+    }
+
+    .letter-content {
+        font-size: 17px;
+        line-height: 1.75;
+    }
+
+    .letter-content p {
+        margin-bottom: 22px;
+    }
+
+    .middle-text {
+        font-size: 40px;
+        padding: 0 10px;
+    }
+
+    .answer-final {
+        font-size: 22px;
+    }
+
+    .front-title {
+        font-size: 30px;
+        top: -90px;
+    }
+
+    .front-subtitle {
+        font-size: 14px;
+        bottom: -75px;
+    }
+
+    .signature {
+        font-size: 22px;
+        margin-top: 45px;
+        padding-right: 0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     FRONT
+========================= -->
+
+<section id="front">
+
+    <div class="envelope-wrapper"
+         onclick="openLetter()">
+
+        <div class="front-title">
+            A special letter for my special someone
+        </div>
+
+        <div class="envelope"
+             id="envelope">
+
+            <div class="flap"></div>
+
+            <div class="seal">
+                ♡
+            </div>
+
+        </div>
+
+        <div class="front-subtitle">
+            tap the envelope to open bebi, and volume up please :)
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     LETTER PAGES
+========================= -->
+
+<section id="letterPages">
+
+    <!-- PAGE 1 -->
+
+    <div class="letter-page active"
+         id="page1">
+
+        <h1 class="letter-title">
+            For My Trisha
+        </h1>
+
+        <div class="date">
+            12 / 02 / 26
+        </div>
+
+        <div class="letter-content">
+
+            <p>
+                hi baby ! i honestly don’t know how to start this letter without saying the same things i’ve told you so many times before. parang kahit ilang beses kong sabihin kung gaano kita kamahal, feeling ko hindi pa rin enough para ma-explain lahat ng nararamdaman ko for you ; ) so instead of starting with the usual “i love you,” i want to tell you something i realized because of you
+            </p>
+
+            <p>
+                you made me realize that love isn’t always about having the perfect words or knowing exactly what to do. sometimes, it’s simply about having someone who makes you appreciate the little things, making efforts for each other, and being each other’s comfort person
+            </p>
+
+            <p>
+                you made me realize na i’m not hard to love, that i’m someone who’s worth loving. you made me see my own worth when i couldn’t even see it myself. you made my life feel worth living, mahal. you made me want to live my life to the fullest. sobrang saya ko na sa’yo ko naranasan lahat ng firsts ko, bebi, and i’m hoping that you would be my first and last. i’m so thankful to have you in my life. you’re my answered prayer mahal : )
+            </p>
+
+            <p>
+                thank you for everything, baby. you became my comfort person. nandiyan ka when i was at my lowest, and you were always willing to understand me. kung alam mo lang kung gaano ako ka-thankful sa’yo, bebi. you still accepted me even with all my flaws and imperfections. you never judged me for the things i rant to you, especially my problems ;) thank you, thank you for making me so happy and for making me feel so special and loved. you’re my other half, my best friend, my girlfriend, my world, my everything. you are such a blessing, my love
+            </p>
+
+            <p class="short-lines">
+                i love laughing with you,<br>
+                i love sharing secrets with you,<br>
+                i love telling you everything,<br>
+                and it’s because you’re my safe space.
+            </p>
+
+            <p>
+                i hope we never stop laughing at the most random things, baby. i hope we still get excited over small things that probably wouldn’t mean anything to other people, but somehow mean everything to us. i hope na hindi tayo mapagod sa kakulitan ng isa’t isa
+            </p>
+
+            <p>
+                i love the tiny things that you do :3 holding my hand and kissing it softly, hugging me while saying you love me and how much you missed me, telling me random compliments even though i get shy, and many, many moreee
+            </p>
+
+            <p>
+                i love you not just for the things that you do for me, but also for how kind you are to other people and especially to animals! i witnessed kung paano ka maging soft sa mga animals, and i loveeee seeing you look so happy with them :) i also love your kindness to other people, and i hope that the world gives you the same kindness that you freely give to everyone else
+            </p>
+
+            <p>
+                ikaw lang yung taong nakapagparamdam sa akin ng ganito. i love the fact na kaya natin maging makulit with each other, and yet when it comes to serious situations, maayos nating nahahandle. i cry when i feel like you’re upset with me, i cry when the slightest change in your tone makes me overthink, and i cry when my words can’t even describe how much i love you
+            </p>
+
+            <p>
+                remember my 143 reasons why i love you? ang totoo naman, kulang pa nga ’yon as my reasons why i love you ;) i can write thousands of those, and if babalik ako sa pinanggalingan non, the simplest reason why i love you is because you are you. my trishia, my baby, my loml, the one who loved me purely
+            </p>
+
+            <p>
+                i want to grow with you, mahal. i want us to witness each other’s success. i want to see you become my veterinarian who’ll take care of our future babies, cats and dogs :P
+            </p>
+
+            <p>
+                but i know we’re going to change. our dreams might change, our priorities might change, and even the way we see things might change. pero i don’t want to be afraid of those changes. i want to be there and watch you grow into the person you’re meant to become. i want to know every version of you, not just the version i know today
+            </p>
+
+            <p>
+                and maybe that’s one of the things i love most about what we have. hindi lang kita mahal for who you are right now. i want to keep knowing you through every version of you that life brings. every universe, every version of you, i’d still choose and love you no matter what
+            </p>
+
+            <p>
+                i hope that as time passes, we never forget the little things that made us who we are now. kahit dumating yung time na maging busy tayo, may mga tampuhan, o away pa man yan, i hope we still find our way back to the little things that made us happy. and i hope that it’s us till the end : )
+            </p>
+
+            <p>
+                i know i’m not always the easiest person to love, and i know there will be days when we’ll misunderstand each other or things won’t go the way we want. but even through all of that, i’ll always care about you and about us. i want to keep choosing you, learning more about you, understanding you, and growing with you
+            </p>
+
+            <p>
+                i want to be there sa happiest days mo, sa worst days mo, sa random days mo, and even sa days na hindi mo alam kung ano kailangan mo. i want to see you grow, reach your dreams, become the person you’ve always wanted to be, and be there to remind you how proud i am of you
+            </p>
+
+            <p>
+                and if there’s one thing i want you to take from everything i’ve written here, it’s how genuinely grateful i am for you. i’m so thankful that i met you, got to know you, and got to experience this kind of love with you. you’ve seen so many sides of me, even the messy ones, and somehow you still chose to understand me. i’ll never take that for granted.
+            </p>
+
+            <p>
+                i don’t think i’ll ever find the exact words to explain how much you mean to me, pero if i had to put everything into one simple thought, it would be this: i love you, i appreciate you, and i’m so incredibly thankful na out of everyone in this world, ikaw yung nakilala ko, minahal ko, and now, i get to call mine
+            </p>
+
+            <p>
+                i love you more than words can explain. and if there are days when my actions don’t perfectly show it, i hope this letter reminds you that my heart has never stopped loving you
+            </p>
+
+        </div>
+
+        <div class="continue-area">
+
+            <button class="continue-btn"
+                    onclick="goToPage(2)">
+                click here mahal 
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- PAGE 2 -->
+
+    <div class="letter-page middle-page"
+         id="page2">
+
+        <div class="middle-text">
+            but, im not done yet hehe
+        </div>
+
+        <div class="continue-area">
+
+            <button class="continue-btn"
+                    onclick="goToPage(3)">
+                click here bebi
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- PAGE 3 -->
+
+    <div class="letter-page answer-page"
+         id="page3">
+
+        <h1 class="letter-title">
+            one more thing...
+        </h1>
+
+        <div class="date">
+            ♡
+        </div>
+
+        <div class="letter-content">
+
+            <p>
+                and after everything, i think this is my way of answering you too. after all the time you spent courting me, after all the efforts, patience, and love you’ve shown me, i want you to know that my answer is a yes! i choose you. i choose us. and i want to love you the same way you’ve been loving me
+            </p>
+
+            <p>
+                so today, 12/02/26, sinasagot na kita mahal :) today, your birthday, is the day i chose to finally give you my answer kasi i want it to be more than just your birthday, i want this day to be special and memorable for you. i want my answer to be my birthday gift for you, something personal and something you can remember. it’s two special things in one day, your birthday and our monthsarry. and honestly, i can’t think of a better day to finally say yes and choose you. i also want na icelebrate natin birthdays natin na we’re official, our first birthdays together ! <3 
+            </p>
+
+            <p>
+                i hope my answer becomes one of the gifts you’ll remember the most ;) happiest birthday, my love. i hope you u like my gifts hehe
+            </p>
+
+            <div class="answer-love">
+
+                <p>
+                    mahal na mahal kita, higit pa sa tatlong libo.
+                </p>
+
+                <p>
+                    ti amo, amore mio<br>
+                    je t’aime, mon amour<br>
+                    ich liebe dich, meine liebe
+                </p>
+
+                <p class="answer-final">
+                    i love you, my girlfriend !
+                </p>
+
+            </div>
+
+            <div class="signature">
+    - peyt
+</div>
+
+<div class="photo-strip">
+
+    <div class="polaroid">
+        <img src="./IMG_20260731_150440_949.jpg"
+             alt="our photo">
+    </div>
+
+    <div class="polaroid">
+        <img src="./IMG_20260929_145914_239.jpg"
+             alt="our photo">
+    </div>
+
+    <div class="polaroid">
+        <img src="./IMG_20261003_205926_004.jpg"
+             alt="our photo">
+    </div>
+
+    <div class="polaroid">
+        <img src="./IMG_20261018_125637_770.jpg"
+             alt="our photo">
+    </div>
+
+    <div class="polaroid">
+        <img src="./messenger.jpeg"
+             alt="our photo">
+    </div>
+
+</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     AUDIO
+========================= -->
+
+<audio id="music"
+       preload="auto"
+       loop
+       playsinline>
+
+    <source
+        src="./The 1975 - fallingforyou.mp3"
+        type="audio/mpeg">
+
+</audio>
+
+<script>
+
+/* =========================
+   OPEN ENVELOPE
+========================= */
+
+let opened = false;
+
+function openLetter() {
+
+    if (opened) return;
+
+    opened = true;
+
+    const envelope =
+        document.getElementById("envelope");
+
+    const front =
+        document.getElementById("front");
+
+    const letterPages =
+        document.getElementById("letterPages");
+
+    const music =
+        document.getElementById("music");
+
+    /* music */
+
+    music.volume = 0.55;
+
+    music.play().catch(() => {});
+
+    /* envelope animation */
+
+    envelope.classList.add("open");
+
+    /* hearts */
+
+    startHearts();
+
+    /* transition to letter */
+
+    setTimeout(() => {
+
+        front.classList.add("hide");
+
+    }, 1200);
+
+    setTimeout(() => {
+
+        front.style.display = "none";
+
+        letterPages.classList.add("show");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }, 2800);
+}
+
+/* =========================
+   PAGE TRANSITION
+========================= */
+
+let changingPage = false;
+
+function goToPage(number) {
+
+    if (changingPage) return;
+
+    changingPage = true;
+
+    const current =
+        document.querySelector(
+            ".letter-page.active"
+        );
+
+    const next =
+        document.getElementById(
+            "page" + number
+        );
+
+    if (!current || !next) {
+
+        changingPage = false;
+
+        return;
+    }
+
+    current.classList.add("leaving");
+
+    setTimeout(() => {
+
+        current.classList.remove("active");
+        current.classList.remove("leaving");
+
+        next.classList.add("active");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }, 1200);
+
+    setTimeout(() => {
+
+        changingPage = false;
+
+    }, 1900);
+}
+
+/* =========================
+   FLOATING HEARTS
+========================= */
+
+let heartsStarted = false;
+
+function startHearts() {
+
+    if (heartsStarted) return;
+
+    heartsStarted = true;
+
+    setInterval(() => {
+
+        createHeart();
+
+    }, 1800);
+}
+
+function createHeart() {
+
+    const heart =
+        document.createElement("div");
+
+    heart.className = "heart";
+
+    heart.innerHTML =
+        Math.random() > 0.5
+        ? "♡"
+        : "♥";
+
+    heart.style.left =
+        Math.random() * 100 + "vw";
+
+    heart.style.fontSize =
+        (14 + Math.random() * 14) + "px";
+
+    heart.style.animationDuration =
+        (5 + Math.random() * 4) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+
+        heart.remove();
+
+    }, 10000);
+}
+
+</script>
+
+</body>
+</html>
